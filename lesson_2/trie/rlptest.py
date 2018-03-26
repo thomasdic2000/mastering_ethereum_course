@@ -1,13 +1,19 @@
-#!/usr/bin/python
+import sys
+sys.path.append('src')
+import rlp
 
-import plyvel
-
-db = plyvel.DB('triedb')
-
-for k, v in db:
-    print("the key = 0x"+k.encode("hex"))
-    print("the value = 0x"+v.encode("hex"))
-    print("-------------------------------------------")
+test_list  = ["helloworld",
+              chr(0),
+              chr(126),
+              "The quick brown fox jumps over the lazy dog The quick brown fox jumps over the lazy dog",
+              ["Peter Piper picked a peck of pickled peppers","Betty Botter bought some butter"],
+              '']  
 
 
+for test in test_list:
+    if isinstance(test, list):
+       print("original string :" + test[0])
+    else:
+       print("original string :" + test)
+    print("after encode : 0x" + rlp.encode(test).encode('hex'))
 
