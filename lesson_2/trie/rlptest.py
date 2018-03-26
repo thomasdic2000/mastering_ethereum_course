@@ -12,8 +12,11 @@ test_list  = ["helloworld",
 
 for test in test_list:
     if isinstance(test, list):
-       print("original string :" + test[0])
+        for s in test:
+            print("original string in list :" + s)
+            print("original string in list :" + hex(len(s)))
     else:
        print("original string :" + test)
+       print("original string length: " + hex(len(test)))
     print("after encode : 0x" + rlp.encode(test).encode('hex'))
 
