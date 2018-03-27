@@ -1,0 +1,54 @@
+ 
+1. 首先创建 目录  
+        mkdir -p   ~/testnet/chaindata/
+		
+2. 生成新的地址用于预分配 ether
+ 
+        ./geth account new --datadir  ~/testnet/chaindata/
+        
+		生成以后保存好这个地址, 和地址对应的密码
+
+3. 清除数据库
+ 
+        ./geth removedb --datadir  ~/testnet/chaindata/ 
+ 
+4.  编辑 ~/testnet/CustomGenesis.json
+    替换掉里面的地址为第2步生成的地址
+ 
+5. 使用创始块初始化测试网络
+    ./geth --identity "BlcokGeekTestNode" --datadir ~/testnet/chaindata init ~/testnet/CustomGenesis.json
+
+6. 使用创始块初始化测试网络
+    ./geth --rpc --rpcaddr 0.0.0.0 --rpccorsdomain "*" --ws --wsaddr 0.0.0.0 --wsorigins "*" --datadir ~/testnet/chaindata --networkid 201803286666  --nodiscover
+
+7. 打开另外一个终端,  进入到 go-ethereum/build/bin 目录, 连接到测试网络
+	./geth attach ~/testnet/chaindata/geth.ipc
+
+8. 在这个连接中输入命令
+ personal.newAccount("test222")
+ personal.newAccount("test333")
+ 
+8. 把已有的地址赋予给三个变量 
+ addr1 = eth.accounts[0]
+ addr2 = eth.accounts[1]
+ addr3 = eth.accounts[2]
+ 
+ 
+9. 设置挖矿收益人地址
+
+miner.setEtherbase(addr3)
+
+10. 自由发挥阶段, 请参考视频内容
+
+ 常用的几个命令 
+  1. web3.fromWei(eth.getBalance(addr2), "ether")  显示对应账户余额 
+  2. 解锁账号  personal.unlockAccount(addr2)
+  3. 发起交易 eth.sendTransaction({from:addr1, to:addr2, value: web3.toWei(10.0, "ether")})
+  4. 获取当前block号码   eth.blocknumber
+  5. 获取block的具体内容   eth.getBlock(5)  
+  6  获取交易的具体内容  eth.getTransaction(参数是交易的散列值)
+  
+API 参考链接  http://web3js.readthedocs.io/en/1.0/index.html
+ 
+ 
+
